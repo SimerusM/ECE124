@@ -1,3 +1,4 @@
+-- Ahmed Mohammed and Simerus Mahesh | Lab4_REPORT | LS206 | Group 23
 -- Import packages
 LIBRARY ieee;
 USE ieee.std_logic_1164.ALL;
