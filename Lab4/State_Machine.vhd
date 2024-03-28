@@ -5,6 +5,9 @@ library ieee;
 use ieee.std_logic_1164.all;
 use ieee.numeric_std.all;
 
+--Entity definition for the State_Machine
+-- This includes inputs for clock, reset, control signals, and pedestrian requests,
+-- as well as outputs for traffic light states, crossing signals, and a 4-bit state indicator.
 Entity State_Machine IS Port
 (
  clk_input, reset, sm_clken, blink_sig, ns_request, ew_request			: IN std_logic;
@@ -14,18 +17,20 @@ Entity State_Machine IS Port
  ns_clear, ew_clear : OUT std_logic -- Output bits
  );
 END ENTITY;
- 
+	
+ -- Architecture declaration of State_Machine
 Architecture SM of State_Machine is
  
  
 TYPE STATE_NAMES IS (S0, S1, S2, S3, S4, S5, S6, S7, S8, S9, S10, S11, S12, S13, S14, S15); 
 
- 
+ -- Signals for current and next state to control state transitions
 SIGNAL current_state, next_state	:  STATE_NAMES;    
 
 
 BEGIN
-
+-- Register section for handling state transitions on the rising edge of the clock
+-- Includes reset functionality
 Register_Section: PROCESS (clk_input)  
 BEGIN
 	IF(rising_edge(clk_input)) THEN
