@@ -1,6 +1,4 @@
--- Simerus Mahesh and Ahmed
-
--- Import packages
+-- Ahmed Mohammed and Simerus Mahesh Lab4_REPORT LS206 Group 23
 library ieee;
 use ieee.std_logic_1164.all;
 use ieee.numeric_std.all;
