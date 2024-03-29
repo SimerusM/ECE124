@@ -120,20 +120,21 @@ INST1: pb_inverters		port map (rst_n_filtered, rst, pb_n_filtered, pb);
 INST3: clock_generator 	port map (sim_mode, synch_rst, clkin_50, sm_clken, blink_sig);
 
 -- Used for the synchronizer which generates the synchronous reset signal
-INSTMID: synchronizer port map (clkin_50, synch_rst, rst, synch_rst);
+INST4: synchronizer port map (clkin_50, synch_rst, rst, synch_rst);
 
 -- Synchronizer and holding register for the EW traffic light
-INSTEW: synchronizer port map (clkin_50, synch_rst, pb(1), ew_req);
-INSTEWHOLDREG: holding_register port map (clkin_50, synch_rst, ew_clear, ew_req, ew_out);
+INST5: synchronizer port map (clkin_50, synch_rst, pb(1), ew_req);
+INST6: holding_register port map (clkin_50, synch_rst, ew_clear, ew_req, ew_out);
 leds(3) <= ew_out;
 
 -- Synchronizer and holding register for the NS traffic light
-INSTNS: synchronizer port map (clkin_50, synch_rst, pb(0), ns_req);
-INSTNSHOLDREG : holding_register port map (clkin_50, synch_rst, ns_clear, ns_req, ns_out);
+INST7: synchronizer port map (clkin_50, synch_rst, pb(0), ns_req);
+INST8: holding_register port map (clkin_50, synch_rst, ns_clear, ns_req, ns_out);
 leds(1) <= ns_out;
 
 -- Generates an instance of the state machine which transitions between states and controls most of the traffic light
-INSTSTATEMACHINE : State_Machine port map (clkin_50, synch_rst, sm_clken, blink_sig, ns_out, ew_out, ns_green, ns_amber, ns_red, ew_green, ew_amber, ew_red, ns_crossing, ew_crossing, leds(7 downto 4), ns_clear, ew_clear);
+INST9: State_Machine port map (clkin_50, synch_rst, sm_clken, blink_sig, ns_out, ew_out, ns_green, ns_amber, ns_red, ew_green, 
+			       ew_amber, ew_red, ns_crossing, ew_crossing, leds(7 downto 4), ns_clear, ew_clear);
 
 -- Displays the NS and EW crossing state values on the leds
 leds(0) <= ns_crossing;
@@ -144,17 +145,7 @@ NSLIGHTS(6 downto 0) <= ns_amber & "00" & ns_green & "00" & ns_red;
 EWLIGHTS(6 downto 0) <= ew_amber & "00" & ew_green & "00" & ew_red; 
 
 -- Uses the segment7_mux to display the traffic light digit values on the FPGA (or waveform if in SIM_MODE)
-INSTLIGHTS : segment7_mux port map (clkin_50, NSLIGHTS, EWLIGHTS, seg7_data, seg7_char2, seg7_char1);
-
--- All of the simulated values for the final waveform
---sim_sm_clken <= sm_clken;
---sim_blink_sig <= blink_sig;
---sim_ns_green <= ns_green;
---sim_ns_amber <= ns_amber;
---sim_ns_red <= ns_red;
---sim_ew_green <= ew_green;
---sim_ew_amber <= ew_amber;
---sim_ew_red <= ew_red;
+INST10: segment7_mux port map (clkin_50, NSLIGHTS, EWLIGHTS, seg7_data, seg7_char2, seg7_char1);
 
 
 END SimpleCircuit;
