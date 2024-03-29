@@ -146,6 +146,4 @@ EWLIGHTS(6 downto 0) <= ew_amber & "00" & ew_green & "00" & ew_red;
 
 -- Uses the segment7_mux to display the traffic light digit values on the FPGA (or waveform if in SIM_MODE)
 INST10: segment7_mux port map (clkin_50, NSLIGHTS, EWLIGHTS, seg7_data, seg7_char2, seg7_char1);
-
-
 END SimpleCircuit;
